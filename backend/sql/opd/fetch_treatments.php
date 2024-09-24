@@ -17,7 +17,6 @@ if ($conn->connect_error) {
 $sql = "
     SELECT 
         p.full_name AS patient_name,
-        pm.disease_type,
         t.appointment_date, 
         tf.date_of_treatment AS treatment_date,  
         tf.next_appointment_date,  
@@ -32,8 +31,6 @@ $sql = "
         treatment_form tf ON t.id_treatment_form = tf.id
     JOIN 
         monitor_information m ON t.id_monitor_information = m.id
-    JOIN 
-        patient_medical_information pm ON pm.id = p.id  -- เปลี่ยนเงื่อนไข JOIN ตรงนี้ให้ถูกต้อง
 ";
 
 $result = $conn->query($sql);

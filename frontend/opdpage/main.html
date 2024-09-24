@@ -185,7 +185,6 @@
             <thead>
                 <tr>
                     <th>รายชื่อผู้ป่วย</th>
-                    <th>โรคประจำตัว</th>
                     <th>วันนัดหมาย</th>
                     <th>วันที่มารักษาตัว</th>
                     <th>วันที่นัดครั้งถัดไป</th>
@@ -216,7 +215,6 @@
                         const row = document.createElement("tr");
                         row.innerHTML = `
                     <td>${patient.patient_name}</td>
-                    <td>${patient.disease_type}</td>
                     <td>${patient.appointment_date}</td>
                     <td>${patient.treatment_date}</td>
                     <td>${patient.next_appointment_date}</td>
