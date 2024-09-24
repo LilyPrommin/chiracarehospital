@@ -1,5 +1,5 @@
 <?php
-include 'db_connection.php'; // เชื่อมต่อฐานข้อมูล
+include './db_connection.php'; // เชื่อมต่อฐานข้อมูล
 
 // ตรวจสอบว่า 'id' ถูกส่งมาหรือไม่
 if (!isset($_GET['id'])) {
@@ -25,7 +25,11 @@ $result = $stmt->get_result();
 $patient = $result->fetch_assoc();
 
 if ($patient) {
-    echo json_encode($patient);
+    // ส่งข้อมูลทั้งชื่อผู้ป่วยและโรค
+    echo json_encode([
+        'patient_name' => $patient['patient_name'],
+        'disease' => $patient['disease']
+    ]);
 } else {
     echo json_encode(['error' => 'No patient found with the given ID']);
 }

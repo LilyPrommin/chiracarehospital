@@ -13,9 +13,11 @@ if ($conn->connect_error) {
 }
 
 // SQL query เพื่อดึงข้อมูลจากตารางต่างๆ
+// SQL query เพื่อดึงข้อมูลจากตารางต่างๆ
 $sql = "
     SELECT 
         p.full_name AS patient_name,
+        pm.disease_type,
         t.appointment_date, 
         tf.date_of_treatment AS treatment_date,  
         tf.next_appointment_date,  
@@ -25,11 +27,13 @@ $sql = "
     FROM 
         treatment_information t
     JOIN 
-        patient_information p ON t.id_patient_information = p.id  -- แก้ไขตามชื่อคอลัมน์ที่ถูกต้อง
+        patient_information p ON t.id_patient_information = p.id  -- ตรวจสอบให้แน่ใจว่าคอลัมน์ถูกต้อง
     JOIN 
         treatment_form tf ON t.id_treatment_form = tf.id
     JOIN 
         monitor_information m ON t.id_monitor_information = m.id
+    JOIN 
+        patient_medical_information pm ON pm.id = p.id  -- เปลี่ยนเงื่อนไข JOIN ตรงนี้ให้ถูกต้อง
 ";
 
 $result = $conn->query($sql);

@@ -72,17 +72,6 @@
     </form>
   </div>
 
-  <div id="popup" class="popup">
-    <div class="popup-content">
-      <h3>คุณแน่ใจหรือไม่ว่าจะส่งแบบฟอร์มนี้?</h3>
-      <p>กรุณาตรวจสอบข้อมูลเพื่อความถูกต้องก่อนส่ง</p>
-      <div class="button-popup">
-        <button type="Yes" onclick="submitForm()">ใช่</button>
-        <button type="No" onclick="closePopup()">ไม่</button>
-      </div>
-    </div>
-  </div>
-
   <script>
     // Load sidebar
     fetch('sidebar.html')
@@ -122,61 +111,6 @@
     }
   </script>
 
-  <script>
-    // Show the confirmation pop-up
-    function confirmSubmission() {
-      document.getElementById("popup").style.display = "flex";
-    }
-
-    // Close the pop-up
-    function closePopup() {
-      document.getElementById("popup").style.display = "none";
-    }
-
-    // Submit the form and go back to the previous page
-    function submitForm() {
-      // You can add form validation logic here if needed
-      closePopup();
-
-      // Simulate form submission or redirect to the previous page
-      alert('Form submitted successfully!');
-      window.history.back();  // Go back to the previous page
-    }
-
-  </script>
-
 </body>
 
 </html>
-
-<style>
-  .popup {
-    display: none;
-    /* Hidden by default */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-  }
-
-  .popup-content {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    text-align: center;
-  }
-
-  .popup-content p {
-    padding: 10px;
-    margin-bottom: 15px;
-    text-align: center;
-  }
-
-  .button-popup{
-    margin-left: 20px;
-  }
-</style>

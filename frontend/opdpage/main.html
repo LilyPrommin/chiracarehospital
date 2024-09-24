@@ -185,8 +185,9 @@
             <thead>
                 <tr>
                     <th>รายชื่อผู้ป่วย</th>
+                    <th>โรคประจำตัว</th>
                     <th>วันนัดหมาย</th>
-                    <th>วันที่เข้ารักษา</th>
+                    <th>วันที่มารักษาตัว</th>
                     <th>วันที่นัดครั้งถัดไป</th>
                     <th>ครั้งที่รักษา</th>
                     <th>สถานะการติดตาม</th>
@@ -215,6 +216,7 @@
                         const row = document.createElement("tr");
                         row.innerHTML = `
                     <td>${patient.patient_name}</td>
+                    <td>${patient.disease_type}</td>
                     <td>${patient.appointment_date}</td>
                     <td>${patient.treatment_date}</td>
                     <td>${patient.next_appointment_date}</td>
@@ -244,17 +246,33 @@
                 .catch(error => console.error("Error fetching data:", error));
         });
 
-        // action add 
+        // ฟังก์ชัน confirmAction ที่คุณมีอยู่แล้ว
         function confirmAction(patientId) {
-            console.log(patientId); // เพิ่มบรรทัดนี้เพื่อตรวจสอบ
-            fetch(`http://localhost/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`)
+            // ตรวจสอบว่า patientId มีค่า
+            if (!patientId) {
+                console.error("No patient ID provided.");
+                return;
+            }
+
+            // URL สำหรับดึงข้อมูลผู้ป่วย
+            const apiUrl = `http://localhost/chiracarehospital/backend/sql/opd/get_patient_data.php?id=${patientId}`;
+
+            fetch(apiUrl)
                 .then(response => response.json())
                 .then(patient => {
+                    // เช็คว่ามีข้อผิดพลาดจาก API หรือไม่
+                    if (patient.error) {
+                        console.error("Error from API:", patient.error);
+                        return;
+                    }
+
+                    // รับข้อมูลชื่อและโรค
                     const name = encodeURIComponent(patient.patient_name);
                     const disease = encodeURIComponent(patient.disease);
-                    window.location.href = `test.html?name=${name}&disease=${disease}`;
                 })
-                .catch(error => console.error("Error fetching patient data:", error));
+                .catch(error => {
+                    console.error("Error fetching patient data:", error);
+                });
         }
 
         // Status color
