@@ -2,114 +2,139 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Add Appointment</title>
-  <link rel="stylesheet" href="../../styles.css">
-  <link rel="stylesheet" href="../../css/sidebar.css">
-  <link rel="stylesheet" href="../../css/topbar.css">
-  <link rel="stylesheet" href="../../frontend/opdpage/css/logo.css">
-  <link rel="stylesheet" href="../../frontend/opdpage/css/button.css">
-  <link rel="stylesheet" href="../../frontend/opdpage/css/form.css">
-  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Add Appointment</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" href="../../css/topbar.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/logo.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/button.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/form.css">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body style="background-color:#edeff1;">
 
-  <!-- Sidebar will be loaded here -->
-  <div id="sidebar-container"></div>
+    <!-- Sidebar will be loaded here -->
+    <div id="sidebar-container"></div>
 
-  <!-- Topbar will be loaded here -->
-  <div id="topbar-container"></div>
+    <!-- Topbar will be loaded here -->
+    <div id="topbar-container"></div>
 
-  <div class="form-section">
-    <form action="submit.php" method="post">
-      <!-- Topic -->
-      <divc class="Topic">
-        <p>เพิ่มนัดการรักษา</p>
-      </divc>
+    <div class="form-section" id="updateForm">
+        <h2>เพิ่มนัดการรักษา</h2>
+        <form id="appointmentForm">
+            <label for="name">ชื่อ – นามสกุล</label>
+            <input type="text" id="name" placeholder="กรอกชื่อผู้ป่วย" required>
 
-      <form>
-        <label for="name">ชื่อ – นามสกุล</label>
-        <input type="text" id="name" placeholder="นายเบชา สงกรานต์">
+            <label for="disease">โรคของผู้ป่วยที่รักษา</label>
+            <input type="text" id="disease" placeholder="กรอกโรคของผู้ป่วย" required>
 
-        <label for="disease">โรคของผู้ป่วยที่รักษา</label>
-        <select id="disease">
-          <option value="">ความดันโลหิตสูง</option>
-          <option value="โรคหัวใจ">โรคอ้วน</option>
-          <option value="มะเร็ง">มะเร็ง</option>
-          <option value="">ไขมันในเลือดสูง</option>
-          <option value="โรคหัวใจ">โรคเบาหวาน</option>
-          <option value="มะเร็ง">CVS Risk</option>
-          <option value="มะเร็ง">โรคไต</option>
-        </select>
+            <label for="symptoms">อาการทั่วไป</label>
+            <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป" required>
 
-        <label for="symptoms">อาการทั่วไป</label>
-        <input type="text" id="symptoms" placeholder="กรุณากรอกอาการทั่วไป">
+            <label for="treatment-plan">ประเด็นการรักษา</label>
+            <input type="text" id="treatment-plan" placeholder="กรุณากรอกประเด็นการรักษา" required>
 
-        <label for="treatment-plan">ประเด็นการรักษา</label>
-        <select id="treatment-plan">
-          <option value="">กรุณากรอกอาการทั่วไป</option>
-          <!-- <option value="ยา">ยา</option>
-          <option value="ผ่าตัด">ผ่าตัด</option> -->
-        </select>
+            <label for="start-date">วันที่เข้ารับการรักษา</label>
+            <input type="date" id="start-date" required>
 
-        <label for="start-date">วันที่เข้ารับการรักษา</label>
-        <input type="date" id="start-date">
+            <label for="next-visit-date">วันที่นัดครั้งถัดไป</label>
+            <input type="date" id="next-visit-date" required>
 
-        <label for="next-visit-date">วันที่นัดครั้งถัดไป</label>
-        <input type="date" id="next-visit-date">
+            <label for="notes">หมายเหตุ</label>
+            <input type="text" id="notes" placeholder="กรุณากรอกหมายเหตุ">
 
-        <label for="notes">หมายเหตุ</label>
-        <input type="text" id="notes" placeholder="กรุณากรอกหมายเหตุ">
-      </form>
+            <button type="submit">บันทึก</button>
+        </form>
+    </div>
 
-      <!-- Submit Button -->
-      <div class="button-group">
-        <button type="submit" onclick="confirmSubmission()">บันทึก</button>
-        <button type="back" id="back">ย้อนกลับ</button>
-      </div>
-    </form>
-  </div>
+    <script>
+        // ดึงข้อมูลจาก URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get('name');
+        const disease = urlParams.get('disease');
 
-  <script>
-    // Load sidebar
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-container').innerHTML = data;
-        loadSidebarScript(); // Initialize sidebar toggle after loading
-      });
+        // แสดงในฟอร์ม
+        document.getElementById('name').value = decodeURIComponent(name);
+        document.getElementById('disease').value = decodeURIComponent(disease);
 
-    // Load topbar and set the page title
-    fetch('topbar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('topbar-container').innerHTML = data;
-        document.getElementById('page-title').textContent = 'การแจ้งเตือน'; // Set page title for the main page
-      });
+        // การจัดการเมื่อฟอร์มถูกส่ง
+        document.getElementById('appointmentForm').onsubmit = function (e) {
+            e.preventDefault(); // หยุดการรีเฟรชหน้า
+            // ดึงค่าจากฟอร์ม
+            const symptoms = document.getElementById('symptoms').value;
+            const treatmentPlan = document.getElementById('treatment-plan').value;
+            const startDate = document.getElementById('start-date').value;
+            const nextVisitDate = document.getElementById('next-visit-date').value;
+            const notes = document.getElementById('notes').value;
 
-    function loadSidebarScript() {
-      let sidebar = document.querySelector(".sidebar");
-      let closeBtn = document.querySelector("#btn");
+            // ทำการส่งข้อมูลไปยังฐานข้อมูล
+            const data = {
+                name: name,
+                disease: disease,
+                symptoms: symptoms,
+                treatmentPlan: treatmentPlan,
+                startDate: startDate,
+                nextVisitDate: nextVisitDate,
+                notes: notes
+            };
 
-      closeBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("open");
-        menuBtnChange();
-      });
+            fetch('http://localhost/chiracarehospital/backend/sql/opd/update_patient_data.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    // อาจจะมีการแสดงข้อความสำเร็จหรือเปลี่ยนหน้าไปยังที่อื่น
+                })
+                .catch(error => console.error("Error updating patient data:", error));
+        };
+    </script>
 
-      function menuBtnChange() {
-        if (sidebar.classList.contains("open")) {
-          closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
-        } else {
-          closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                loadSidebarScript(); // Initialize sidebar toggle after loading
+            });
+
+        // Load topbar and set the page title
+        fetch('topbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('topbar-container').innerHTML = data;
+                document.getElementById('page-title').textContent = 'การแจ้งเตือน'; // Set page title for the main page
+            });
+
+        function loadSidebarScript() {
+            let sidebar = document.querySelector(".sidebar");
+            let closeBtn = document.querySelector("#btn");
+
+            closeBtn.addEventListener("click", () => {
+                sidebar.classList.toggle("open");
+                menuBtnChange();
+            });
+
+            function menuBtnChange() {
+                if (sidebar.classList.contains("open")) {
+                    closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+                } else {
+                    closeBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+                }
+            }
+            document.getElementById('back').addEventListener('click', function () {
+                window.location.href = 'main.html';
+            });
         }
-      }
-      document.getElementById('back').addEventListener('click', function () {
-        window.location.href = 'main.html';
-      });
-    }
-  </script>
+    </script>
 
 </body>
 
