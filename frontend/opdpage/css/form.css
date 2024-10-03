@@ -8,7 +8,8 @@
 
 .form-section {
     align-items: center;
-    width: 92%;
+    /* width: 92%; */
+    width: 91%;
     margin: 25px auto;
     margin-left: 115px;
     background-color: white;

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../frontend/opdpage/css/logo.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/button.css">
     <link rel="stylesheet" href="../../frontend/opdpage/css/form.css">
+    <link rel="stylesheet" href="../../frontend/opdpage/css/popup.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -46,8 +47,23 @@
             <label for="notes">หมายเหตุ</label>
             <input type="text" id="notes" placeholder="กรุณากรอกหมายเหตุ">
 
-            <button type="submit">บันทึก</button>
+            <!-- Submit Button -->
+            <div class="button-group">
+                <button type="submit" onclick="confirmSubmission()">บันทึก</button>
+                <button type="back" id="back">ย้อนกลับ</button>
+            </div>
         </form>
+    </div>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h3>คุณแน่ใจหรือไม่ว่าจะส่งแบบฟอร์มนี้?</h3>
+            <p>กรุณาตรวจสอบข้อมูลเพื่อความถูกต้องก่อนส่ง</p>
+            <div class="button-popup">
+                <button type="Yes" onclick="submitForm()">ใช่</button>
+                <button type="No" onclick="closePopup()">ไม่</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -134,6 +150,29 @@
                 window.location.href = 'main.html';
             });
         }
+    </script>
+
+    <script>
+        // Show the confirmation pop-up
+        function confirmSubmission() {
+            document.getElementById("popup").style.display = "flex";
+        }
+
+        // Close the pop-up
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        // Submit the form and go back to the previous page
+        function submitForm() {
+            // You can add form validation logic here if needed
+            closePopup();
+
+            // Simulate form submission or redirect to the previous page
+            alert('Form submitted successfully!');
+            window.history.back();  // Go back to the previous page
+        }
+
     </script>
 
 </body>
